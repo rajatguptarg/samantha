@@ -1,0 +1,18 @@
+recursive-include zeus_agent *.py
+include README.md
+include *.py
+include *.txt
+include MANIFEST
+include LICENSE
+include *.md
+include Makefile
+recursive-include docs *.md
+
+global-exclude *.swp
+
+recursive-exclude zeus_agent *.pyc
+recursive-exclude .circleci *.yml
+
+prune config
+prune tests
+prune .circleci
