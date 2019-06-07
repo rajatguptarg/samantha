@@ -3,6 +3,7 @@ init:
 
 test:
 	python setup.py test
+	flake8 .
 
 build:
 	python setup.py sdist
