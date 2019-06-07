@@ -16,7 +16,7 @@ before_script:
   - ./cc-test-reporter before-build
 script:
   - coverage run setup.py test
-  - flake8 .
+  - flake8 samantha
   - coverage report -m
   - coverage xml
 after_script:
