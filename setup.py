@@ -16,9 +16,9 @@ import unittest
 from setuptools import find_packages, setup, Command
 
 # Package meta-data.
-NAME = 'zeus_agent'
-DESCRIPTION = 'Log Sending Agent for Zeus'
-URL = 'https://github.com/rajatguptarg/zeus-agent'
+NAME = 'samantha'
+DESCRIPTION = 'Bot for managing and monitor infrastructue.'
+URL = 'https://github.com/rajatguptarg/samantha'
 EMAIL = 'rajat.gupta712@gmail.com'
 AUTHOR = 'Rajat Gupta'
 
@@ -76,7 +76,7 @@ class TestCommand(Command):
     """
     Run the tests for portal
     """
-    description = "Run tests for zeus log agent"
+    description = "Run tests for samnthat"
 
     user_options = []
 
@@ -116,8 +116,6 @@ setup(
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
