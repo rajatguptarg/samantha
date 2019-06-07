@@ -8,6 +8,8 @@ Description:
 
 import unittest
 
+from samantha import __version__
+
 
 class TestSample(unittest.TestCase):
     def setUp(self):
@@ -16,8 +18,11 @@ class TestSample(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_0000_test_list_beacons(self):
+    def test_0000_test_list_assertion(self):
         self.assertEqual(200, 200)
+
+    def test_0001_test_version(self):
+        self.assertGreaterEqual(__version__.__version__, '0.0.1')
 
 
 def suite():

@@ -1,0 +1,32 @@
+---
+env:
+  global:
+    - CC_TEST_REPORTER_ID=$CC_TEST_REPORTER_ID
+language: python
+python:
+  - "3.5"
+  - "3.6"
+  - "3.7"
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+before_script:
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - coverage run setup.py test
+  - flake8 .
+  - coverage report -m
+  - coverage xml
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT -t coverage.py
+after_success:
+  - coveralls
+addons:
+  code_climate:
+    repo_token:
+      secure: "N9lZWrJk9TIfpYVoIh8dYeilC7QgIMQDEY3j725YZM0erhHcrqkQ4vmqZ/feQ2FWdnaT68tBxtKc1oFBVl/t98Iko4tzG2Vkd8866Or7Cr1DaeBSUU9l/RkXAR2qOzL132QlQjXi3+2LkMf/RjtalCkdbBDHdie1Y1XkJCjDvzk/JE/2DjCtKWbAeCYfoQr3WgKVPOlFqDXTg3NM+rYwPSxNefT/AeLlrqG1z7YTnV2f6sAjvd5a12GtqGKZgVUpMpTy2Qbnk/551jSUJ0EHmejavnBnTau7iHUad0a3WIDyTb0YhRhaxsmUT302YOB0965Z/dcMuq6FfRUOxPQ6UFwp6qKyTFHU+lsyX7PRgGylFz/jCIVo6eWLvnbaWbDo/SzyUnYwnBVRb20MQ8m/f4nzO4i2X2f9wSGu8yV5Zci16O4hI6+SFqVZeeHIST0w/XqvJj+TP4vP15rJDU9VXaTc+vyNv/F3zLLIJ5pf8h+ppG7iAg1CPACn7isqhJ8OTeocmnnVZmWHS0c5+3lkFpAq85TJgYIpTmhdaj7PcIrSNvywVh5aiTfrGeZ0D95EVeFQY9KwgWdvt554NFBn/fQq/rU0b1HVBcSjnRegxZpafCajA4wcKN5aYTgUll7ADSV5J7AtCmjbk7eJItfWOu58h8kXnM9D16b1HvPO2Ps="
+notifications:
+  email:
+  - rajat.gupta712@gmail.com
