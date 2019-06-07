@@ -7,6 +7,7 @@ include LICENSE
 include *.md
 include Makefile
 recursive-include docs *.md
+include .coveragerc
 
 global-exclude *.swp
 
