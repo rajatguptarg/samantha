@@ -8,3 +8,20 @@
 [![Build Status](https://travis-ci.org/rajatguptarg/samantha.svg?branch=master)](https://travis-ci.org/rajatguptarg/samantha)
 
 Bot for managing deployments and monitoring infrastructure.
+
+
+## Introduction
+
+To learn about building bots, please refer to [Setting Up Slack Bot](/docs/tutorial/README.md).
+
+
+## Install
+
+
+## Build
+
+
+## About
+
+
+## Deploy
