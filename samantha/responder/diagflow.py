@@ -41,7 +41,8 @@ class DiagFlowClient(object):
             self.credentials = service_account.Credentials.from_service_account_file(
                     os.getenv('DIAG_FLOW_CREDENTIALS_FILE', 'dev_credentials.json'))
             self.session_client = dialogflow.SessionsClient(credentials=self.credentials)
-            self.session = self.session_client.session_path(self.project_id, self.session_id)
+            self.session = self.session_client.session_path(
+                    self.project_id, self.session_id)
         except:
             logger.error("Unable to create grpc client")
         return self
