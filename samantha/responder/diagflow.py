@@ -24,22 +24,26 @@ class DiagFlowClient(object):
     """
     API Client for Dialogue Flow
     """
-    session = None
-    session_client = None
 
     def __init__(self):
-        self.project_id = os.getenv('DIAG_FLOW_PROJECT_ID')
-        self.session_id = os.getenv('DIAG_FLOW_SESSION_ID')
-        self.language_code = os.getenv('DIAG_FLOW_LANG_CODE')
-        self.credentials = service_account.Credentials.from_service_account_file(
-                os.getenv('DIAG_FLOW_CREDENTIALS_FILE'))
+        self.project_id = os.getenv('DIAG_FLOW_PROJECT_ID', 'dev')
+        self.session_id = os.getenv('DIAG_FLOW_SESSION_ID', 'dev')
+        self.language_code = os.getenv('DIAG_FLOW_LANG_CODE', 'dev')
+        self.credentials = None
+        self.session = None
+        self.session_client = None
 
     def get_client(self):
         """
         Returns the session client
         """
-        self.session_client = dialogflow.SessionsClient(credentials=self.credentials)
-        self.session = self.session_client.session_path(self.project_id, self.session_id)
+        try:
+            self.credentials = service_account.Credentials.from_service_account_file(
+                    os.getenv('DIAG_FLOW_CREDENTIALS_FILE', 'dev_credentials.json'))
+            self.session_client = dialogflow.SessionsClient(credentials=self.credentials)
+            self.session = self.session_client.session_path(self.project_id, self.session_id)
+        except:
+            logger.error("Unable to create grpc client")
         return self
 
     def get_response(self, text: str):
