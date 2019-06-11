@@ -60,15 +60,10 @@ class DiagFlowClient(object):
                     text=text, language_code=self.language_code
             )
             query_input = dialogflow.types.QueryInput(text=text_input)
-
             response = self.session_client.detect_intent(
                 session=self.session, query_input=query_input)
-        except:
-            return "I am unable to process this request at this moment."
-
-        logger.debug("Dialogue Flow Response: %s", str(response))
-
-        if response.query_result.fulfillment_text:
-            return response.query_result.fulfillment_text
-        else:
-            return str(response) + "\nI can not perform this yet. This is coming soon!"
+            logger.debug("Dialogue Flow Response: %s", str(response))
+            return response
+        except Exception as e:
+            logger.error("Unable to send to dialogflow with %s" % (e))
+            return None

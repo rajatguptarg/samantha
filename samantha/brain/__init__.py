@@ -5,3 +5,8 @@
 Author: Rajat Gupta
 Description:
 """
+
+from samantha.brain.processor import ResponderMessageProcessor
+
+
+__all__ = ['ResponderMessageProcessor']

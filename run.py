@@ -12,8 +12,10 @@ import slack
 import ssl as ssl_lib
 import certifi
 import asyncio
+from logging.config import dictConfig
 
 from samantha.listeners import SlackMessageEventListener
+
 
 
 # ========= Event Listeners =============
@@ -28,5 +30,7 @@ if __name__ == "__main__":
     slack_token = os.environ["SLACK_BOT_TOKEN"]
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    rtm_client = slack.RTMClient(token=slack_token, ssl=ssl_context, loop=loop)
+    rtm_client = slack.RTMClient(
+            token=slack_token, ssl=ssl_context, loop=loop, run_async=True,
+            auto_reconnect=True)
     loop.run_until_complete(rtm_client.start())
