@@ -9,12 +9,15 @@ Description:
 import slack
 import logging
 
+from samantha.responder import DiagFlowClient
+
 
 __all__ = ['SlackMessageEventListener']
 
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+responder = DiagFlowClient().get_client()
 
 
 class SlackMessageEventListener(object):
@@ -32,7 +35,10 @@ class SlackMessageEventListener(object):
         data = payload["data"]
         web_client = payload["web_client"]
         channel_id = data.get("channel")
+        text = data.get("text")
 
         if not data.get("subtype") == 'bot_message':
+            reply = responder.get_response(text)
             logger.debug("Recieved Payload: %s" % (str(payload)))
-            return web_client.chat_postMessage(channel=channel_id, text="Hi")
+            return web_client.chat_postMessage(
+                    channel=channel_id, text=reply)

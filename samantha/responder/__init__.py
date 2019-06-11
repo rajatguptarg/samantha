@@ -6,5 +6,7 @@ Author: Rajat Gupta
 Description:
 """
 
-from samantha import listeners
-from samantha import responder
+from samantha.responder.diagflow import DiagFlowClient
+
+
+__all__ = ['DiagFlowClient']

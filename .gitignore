@@ -107,3 +107,7 @@ sendgrid.env
 coverage_html_report/
 cc-test-reporter
 coverage.xml
+
+# project specific credentials file
+credentials.json
+env.sh
