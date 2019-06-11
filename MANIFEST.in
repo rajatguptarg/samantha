@@ -6,8 +6,10 @@ include MANIFEST
 include LICENSE
 include *.md
 include Makefile
-recursive-include docs *.md
 include .coveragerc
+recursive-include docs *.md
+recursive-include docs *.py
+recursive-include docs *.txt
 
 global-exclude *.swp
 
