@@ -8,3 +8,5 @@ Description:
 
 from samantha import listeners
 from samantha import responder
+from samantha import sender
+from samantha import brain

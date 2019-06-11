@@ -11,6 +11,7 @@ import logging
 import slack
 import ssl as ssl_lib
 import certifi
+import asyncio
 
 from samantha.listeners import SlackMessageEventListener
 
@@ -25,5 +26,7 @@ if __name__ == "__main__":
     logger.addHandler(logging.StreamHandler())
     ssl_context = ssl_lib.create_default_context(cafile=certifi.where())
     slack_token = os.environ["SLACK_BOT_TOKEN"]
-    rtm_client = slack.RTMClient(token=slack_token, ssl=ssl_context)
-    rtm_client.start()
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    rtm_client = slack.RTMClient(token=slack_token, ssl=ssl_context, loop=loop)
+    loop.run_until_complete(rtm_client.start())
