@@ -2,8 +2,10 @@ init:
 	pip install -r requirements.txt
 
 test:
-	python setup.py test
+	coverage run setup.py test
 	flake8 samantha
+	coverage xml
+	coverage report -m
 
 build:
 	python setup.py sdist

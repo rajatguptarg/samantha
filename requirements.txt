@@ -14,3 +14,5 @@ tqdm
 twine
 urllib3
 webencodings
+slackclient
+asyncio
