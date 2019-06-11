@@ -17,7 +17,7 @@ __all__ = ['DiagFlowClient']
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(os.getenv('LOG_LEVEL', logging.INFO))
+logger.setLevel(logging.DEBUG)
 
 
 class DiagFlowClient(object):
