@@ -10,6 +10,7 @@ include .coveragerc
 recursive-include docs *.md
 recursive-include docs *.py
 recursive-include docs *.txt
+include *.json
 
 global-exclude *.swp
 
@@ -19,3 +20,4 @@ recursive-exclude .circleci *.yml
 prune config
 prune tests
 prune .circleci
+prune credentials.json
