@@ -38,7 +38,7 @@ class SlackMessageEventListener(object):
         text = data.get("text")
 
         if not data.get("subtype") == 'bot_message':
-            reply = responder.get_response(text)
+            response = responder.get_response(text)
             logger.debug("Recieved Payload: %s" % (str(payload)))
             return web_client.chat_postMessage(
-                    channel=channel_id, text=reply)
+                    channel=channel_id, text=response)
