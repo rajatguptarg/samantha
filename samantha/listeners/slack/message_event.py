@@ -10,6 +10,7 @@ import slack
 import logging
 
 from samantha.responder import DiagFlowClient
+from samantha.brain import ResponderMessageProcessor
 
 
 __all__ = ['SlackMessageEventListener']
@@ -18,6 +19,7 @@ __all__ = ['SlackMessageEventListener']
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 responder = DiagFlowClient().get_client()
+processor = ResponderMessageProcessor()
 
 
 class SlackMessageEventListener(object):
@@ -33,12 +35,11 @@ class SlackMessageEventListener(object):
         that contains "start".
         """
         data = payload["data"]
-        web_client = payload["web_client"]
         channel_id = data.get("channel")
         text = data.get("text")
 
+        logger.debug("Recieved Payload: %s" % (str(payload)))
+
         if not data.get("subtype") == 'bot_message':
-            response = responder.get_response(text)
-            logger.debug("Recieved Payload: %s" % (str(payload)))
-            return web_client.chat_postMessage(
-                    channel=channel_id, text=response)
+            responder_response = responder.get_response(text)
+            return processor.process(responder_response, channel_id)

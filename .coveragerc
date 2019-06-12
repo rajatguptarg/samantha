@@ -10,7 +10,7 @@ exclude_lines =
     raise NotImplementedError
 
 show_missing = 1
-omit = */tests/*,*/listeners/*,*/responder/*
+omit = */tests/*,*/listeners/*,*/responder/*,*/brain/*,*/sender/*
 ignore_errors = True
 
 [html]
