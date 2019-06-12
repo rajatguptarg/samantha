@@ -62,6 +62,14 @@ Vagrant.configure("2") do |config|
   #
   # View the documentation for the provider you are using for more
   # information on available options.
+  vault_password_file = Dir.pwd + "/.vault_password.txt"
+  if FileTest.size?(vault_password_file) == nil
+       puts "Expecting ansible vault password in file " + vault_password_file + " which either does not exist or is empty."
+       abort
+  end
+  file = File.open(vault_password_file, "r")
+  vault_password = file.read
+  file.close
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
@@ -73,5 +81,10 @@ Vagrant.configure("2") do |config|
     apt-get install -y python-pip
     apt-get install -y python3-pip
     pip3 install virtualenv
+    mkdir /etc/ansible
+    chown -R vagrant:vagrant /etc/ansible/
+    echo "#{vault_password}" > /etc/ansible/.vault_password.txt
+    touch /var/log/ansible.log
+    chmod 0777 /var/log/ansible.log
   SHELL
 end

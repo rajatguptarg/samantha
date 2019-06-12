@@ -1,4 +1,11 @@
 recursive-include samantha *.py
+
+recursive-include iaac *.yml
+recursive-include iaac *.py
+recursive-include iaac *.cfg
+
+recursive-include callback_plugins *.py
+
 include README.md
 include *.py
 include *.txt
