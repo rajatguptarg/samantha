@@ -21,3 +21,4 @@ prune config
 prune tests
 prune .circleci
 prune credentials.json
+prune Vagrantfile

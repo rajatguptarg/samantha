@@ -111,3 +111,6 @@ coverage.xml
 # project specific credentials file
 credentials.json
 env.sh
+logs/
+*.log
+.vagrant/
