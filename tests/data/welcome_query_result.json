@@ -1,0 +1,21 @@
+{
+  "response_id": "05e522c8-f9b7-41cd-84a9-dfa878f82e77-f568217a",
+  "query_result": {
+      "query_text": "hi",
+      "action": "input.welcome",
+      "parameters": {},
+      "all_required_params_present": true,
+      "fulfillment_text": "Greetings! How can I assist?",
+      "fulfillment_messages": {
+          "text": {
+              "text": "Greetings! How can I assist?"
+          }
+      },
+      "intent": {
+          "name:: "projects/kubapp/agent/intents/899f6675-8f1b-432d-b167-f0167e56ea98",
+          "display_name": "Default Welcome Intent"
+      },
+      "intent_detection_confidence": 1.0,
+      "language_code": "en"
+  }
+}
