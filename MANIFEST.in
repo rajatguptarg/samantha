@@ -29,3 +29,4 @@ prune tests
 prune .circleci
 prune credentials.json
 prune Vagrantfile
+prune .vault_password.txt
