@@ -114,3 +114,4 @@ env.sh
 logs/
 *.log
 .vagrant/
+.vault_password.txt
