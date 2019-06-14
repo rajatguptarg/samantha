@@ -115,3 +115,4 @@ logs/
 *.log
 .vagrant/
 .vault_password.txt
+test.py

@@ -29,3 +29,62 @@ class ResultCallback(CallbackBase):
         """
         host = result._host
         print(json.dumps({host.name: result._result}, indent=4))
+
+    def v2_runner_on_failed(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        host = result._host
+        print(json.dumps({host.name: result._result}, indent=4))
+
+    def v2_runner_on_skipped(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        host = result._host
+        print(json.dumps({host.name: result._result}, indent=4))
+
+    def v2_runner_on_unreachable(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        host = result._host
+        print(json.dumps({host.name: result._result}, indent=4))
+
+    def v2_runner_on_no_hosts(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        pass
+
+    def v2_playbook_item_on_ok(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        pass
+
+    def v2_playbook_item_on_skipped(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        pass
+
+    def v2_playbook_on_stats(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        pass

@@ -2,7 +2,7 @@ recursive-include samantha *.py
 
 recursive-include iaac *.yml
 recursive-include iaac *.py
-recursive-include iaac *.cfg
+recursive-include iaac/inventory *
 
 recursive-include callback_plugins *.py
 
@@ -30,3 +30,4 @@ prune .circleci
 prune credentials.json
 prune Vagrantfile
 prune .vault_password.txt
+prune test.py
