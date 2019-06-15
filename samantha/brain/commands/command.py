@@ -25,7 +25,7 @@ class BotCommand(ABC):
 
     def __init__(self):
         self.sender = Sender()
-        self._sources = os.getenv('ANSIBLE_INVENTORY_FILE')
+        self._sources = os.getenv('ANSIBLE_INVENTORY_FILE') + 'dev'
         self.ansible_service = AnsibleService()
         super(BotCommand, self).__init__()
 

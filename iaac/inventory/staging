@@ -7,4 +7,3 @@ localhost ansible_connection=local
 
 [rts]
 192.168.120.26
-192.168.130.16
