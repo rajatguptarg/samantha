@@ -24,32 +24,35 @@ class AnsibleService(object):
     """
     Ansible service class object
     """
-    def __init__(self):
+    def __init__(self, sources: str, hosts: str, tasks: list, callback=None):
         super(AnsibleService, self).__init__()
-        self.loader = DataLoader()
-        self._password = dict(vault_pass='samantha2019')
+        self._sources = sources
+        self._hosts = hosts
+        self._passwords = dict(vault_pass='secret')
+        self._tasks = tasks
+        self._callback = callback
 
-    def setup(self, callback, sources: str, hosts, tasks: list):
+    def initialize(self):
         """
         Setup the parameters to run ansible
         """
         context = self._set_context()   # noqa
-        self.inventory = InventoryManager(loader=self.loader, sources=sources)
+        self.loader = DataLoader()
+        self.inventory = InventoryManager(loader=self.loader, sources=self._sources)
         self.variable_manager = VariableManager(
                 loader=self.loader, inventory=self.inventory)
-        self._callback = callback
-        self.playbook = self._create_playbook(hosts, tasks)
-        self._setup_tqm(self._callback)
+        self.playbook = self._create_playbook()
+        self._setup_tqm()
 
-    def _create_playbook(self, hosts, tasks, name='Ansible Playbook'):
+    def _create_playbook(self):
         """
         Create ansible playbook
         """
         self._play_source = dict(
-                name=name,
-                hosts=hosts,
+                name='Ansible Playbook',
+                hosts=self._hosts,
                 gather_facts='yes',
-                tasks=tasks
+                tasks=self._tasks
         )
         return Play().load(
                 self._play_source, variable_manager=self.variable_manager,
@@ -60,7 +63,7 @@ class AnsibleService(object):
                 inventory=self.inventory,
                 variable_manager=self.variable_manager,
                 loader=self.loader,
-                password=self._password,
+                passwords=self._passwords,
                 stdout_callback=self._callback,
         )
 
@@ -70,6 +73,7 @@ class AnsibleService(object):
         """
         result = -1
         context = self._set_context()  # noqa
+
         try:
             result = self._tqm.run(self.playbook)
         finally:
@@ -82,8 +86,8 @@ class AnsibleService(object):
         """
         Setup the context object
         """
-        context.CLIARGS = ImmutableDict(
-                connection='ssh', forks=10, verbosity=3, remote_user='rajat',
-                become=True, become_method=None, become_user=None, check=False,
-                diff=False)
+        context.CLIARGS = ImmutableDict(connection='ssh', forks=10, become=None,
+                remote_user='rajat',
+                become_method=True, become_user='root', check=False, diff=False,
+                verbosity=3)
         return context

@@ -36,11 +36,14 @@ class AnsibleTask(ABC):
         """
         pass
 
-    def filter_action(self, original_action: dict):
+    def filter_action(self, obj):
         """
         Removes the empty and none valued keys
         """
-        filtered_action = {k: v for k, v in original_action.items() if v is not None}
-        original_action.clear()
-        original_action.update(filtered_action)
-        return original_action
+        if isinstance(obj, (list, tuple, set)):
+            return type(obj)(self.filter_action(x) for x in obj if x is not None)
+        elif isinstance(obj, dict):
+            return type(obj)((self.filter_action(k), self.filter_action(v))
+                for k, v in obj.items() if k is not None and v is not None)
+        else:
+            return obj
