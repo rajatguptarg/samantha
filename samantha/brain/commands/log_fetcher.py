@@ -55,13 +55,8 @@ class LogFetcher(BotCommand):
         self.ansible_service.initialize(
             self._sources, self.servers, self._build_ansible_tasks(), self.callback
         )
-#        import pdb; pdb.set_trace()
         self.sender.slack_client.send_text(text=self.QUICK_REPLY, channel=self.channel)
         return self.ansible_service.run()
-
-#         reply = str(self.environment) + str(self.servers) + str(self.fileage)
-#         return self.sender.slack_client.send_text(
-#                 text=reply, channel=self.channel)
 
 
 class LogFetcherCallback(ResultCallback):
