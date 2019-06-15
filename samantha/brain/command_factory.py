@@ -43,5 +43,4 @@ class CommandFactory(object):
         """
         Returns the prepared log fetch command
         """
-        reply = response.query_result.fulfillment_text
-        return LogFetcher(reply, channel)
+        return LogFetcher(response, channel)

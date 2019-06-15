@@ -7,6 +7,7 @@ Description:
 """
 
 import json
+from samantha.sender import Sender
 from ansible.plugins.callback import CallbackBase
 
 
@@ -21,6 +22,10 @@ class ResultCallback(CallbackBase):
     the end of the execution, look into utilizing the ``json`` callback plugin
     or writing your own custom callback plugin
     """
+    def __init__(self):
+        super(ResultCallback, self).__init__()
+        self.sender = Sender()
+
     def v2_runner_on_ok(self, result, **kwargs):
         """
         Print a json representation of the result

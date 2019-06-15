@@ -5,5 +5,5 @@ localhost
 localhost ansible_connection=local
 192.168.120.26
 
-[app_server]
+[sonic]
 192.168.120.26

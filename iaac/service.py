@@ -6,6 +6,7 @@ Author: Rajat Gupta
 Description:
 """
 
+import os
 import shutil
 from ansible.module_utils.common.collections import ImmutableDict
 from ansible.parsing.dataloader import DataLoader
@@ -24,18 +25,31 @@ class AnsibleService(object):
     """
     Ansible service class object
     """
-    def __init__(self, sources: str, hosts: str, tasks: list, callback=None):
-        super(AnsibleService, self).__init__()
-        self._sources = sources
-        self._hosts = hosts
-        self._passwords = dict(vault_pass='secret')
-        self._tasks = tasks
-        self._callback = callback
+    def __init__(self):
+        """
+        sources: path to ansible inventory file
 
-    def initialize(self):
+        hosts: comma separated list of host e.g 'localhost, app_server'
+
+        tasks: list of ansible task object
+
+        callback: ansible callback for results
+        """
+        super(AnsibleService, self).__init__()
+        self._sources = None
+        self._hosts = None
+        self._tasks = None
+        self._callback = None
+        self._passwords = dict(vault_pass=os.getenv('ANSIBLE_VAULT_PASS'))
+
+    def initialize(self, sources: str, hosts: str, tasks: list, callback=None):
         """
         Setup the parameters to run ansible
         """
+        self._sources = sources
+        self._hosts = hosts
+        self._tasks = tasks
+        self._callback = callback
         context = self._set_context()   # noqa
         self.loader = DataLoader()
         self.inventory = InventoryManager(loader=self.loader, sources=self._sources)
@@ -51,7 +65,7 @@ class AnsibleService(object):
         self._play_source = dict(
                 name='Ansible Playbook',
                 hosts=self._hosts,
-                gather_facts='yes',
+                gather_facts='no',
                 tasks=self._tasks
         )
         return Play().load(
