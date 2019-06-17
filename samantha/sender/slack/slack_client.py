@@ -37,7 +37,7 @@ class SlackWebClient(object):
         """
         response = self._client.chat_postMessage(
                 channel=channel, text=text)
-        logger.debug("Sent message: %s to slack with response %s" % (text, str(response)))
+        logger.info("Sent message: %s to slack with response %s" % (text, str(response)))
         return response
 
     def send_blocks(self, block: dict, channel: str):
