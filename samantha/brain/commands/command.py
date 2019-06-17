@@ -6,7 +6,7 @@ Author: Rajat Gupta
 Description:
 """
 
-import os
+import configargparse
 from abc import ABCMeta, abstractmethod, ABC
 
 from samantha.sender import Sender
@@ -25,7 +25,13 @@ class BotCommand(ABC):
 
     def __init__(self):
         self.sender = Sender()
-        self._sources = os.getenv('ANSIBLE_INVENTORY_FILE') + 'dev'
+        parser = configargparse.get_argument_parser()
+        parser.add_argument(
+            '-i', '--ansible-inventory-file', dest='ansible_inventory_file',
+            env_var='ANSIBLE_INVENTORY_FILE', help='Path for ansible inventory files'
+        )
+        opts = parser.parse_known_args()[0]
+        self._sources = opts.ansible_inventory_file + 'dev'
         self.ansible_service = AnsibleService()
         super(BotCommand, self).__init__()
 

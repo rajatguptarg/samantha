@@ -6,16 +6,15 @@ Author: Rajat Gupta
 Description:
 """
 
-import os
 import json
 import logging
+import configargparse
 from slack import WebClient
 
 
 __all__ = ['SlackWebClient']
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 
 class SlackWebClient(object):
@@ -23,7 +22,13 @@ class SlackWebClient(object):
     Web client for uploading data to slack
     """
     def __init__(self):
-        self._token = os.getenv('SLACK_BOT_TOKEN')
+        parser = configargparse.get_argument_parser()
+        parser.add_argument(
+            '-t', '--slack-bot-token', dest='slack_bot_token', env_var='SLACK_BOT_TOKEN',
+            help='Slack bot token in format of xoxb-xx-xx'
+        )
+        opts = parser.parse_known_args()[0]
+        self._token = opts.slack_bot_token
         self._client = WebClient(token=self._token, run_async=True)
 
     def send_text(self, text: str, channel: str):

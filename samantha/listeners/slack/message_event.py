@@ -17,7 +17,6 @@ __all__ = ['SlackMessageEventListener']
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 responder = DiagFlowClient().get_client()
 processor = ResponderMessageProcessor()
 

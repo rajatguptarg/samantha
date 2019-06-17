@@ -7,8 +7,8 @@ Description:
 """
 
 
-import os
 import logging
+import configargparse
 import dialogflow_v2 as dialogflow
 from google.oauth2 import service_account
 
@@ -17,7 +17,6 @@ __all__ = ['DiagFlowClient']
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 
 class DiagFlowClient(object):
@@ -26,9 +25,31 @@ class DiagFlowClient(object):
     """
 
     def __init__(self):
-        self.project_id = os.getenv('DIAG_FLOW_PROJECT_ID', 'dev')
-        self.session_id = os.getenv('DIAG_FLOW_SESSION_ID', 'dev')
-        self.language_code = os.getenv('DIAG_FLOW_LANG_CODE', 'dev')
+        parser = configargparse.get_argument_parser()
+
+        parser.add_argument(
+            '-p', '--dialogflow-project-id', dest='dialogflow_project_id',
+            env_var='DIAG_FLOW_PROJECT_ID', help='Project of DiaglogFlow Project'
+        )
+        parser.add_argument(
+            '-s', '--dialogflow-session-id', dest='dialogflow_session_id',
+            env_var='DIAG_FLOW_SESSION_ID', help='Session of DiaglogFlow'
+        )
+        parser.add_argument(
+            '-lc', '--dialogflow-lang-code', dest='dialogflow_lang_code',
+            env_var='DIAG_FLOW_LANG_CODE', help='Language code for DiaglogFlow'
+        )
+        parser.add_argument(
+            '-c', '--dialogflow-credentials-file', dest='dialogflow_credentials_file',
+            default='dev_credentials.json',
+            env_var='DIAG_FLOW_CREDENTIALS_FILE',
+            help='Credentials for DiaglogFlow Project'
+        )
+        self.opts = parser.parse_known_args()[0]
+
+        self.project_id = self.opts.dialogflow_project_id
+        self.session_id = self.opts.dialogflow_session_id
+        self.language_code = self.opts.dialogflow_lang_code
         self.credentials = None
         self.session = None
         self.session_client = None
@@ -39,7 +60,7 @@ class DiagFlowClient(object):
         """
         try:
             self.credentials = service_account.Credentials.from_service_account_file(
-                    os.getenv('DIAG_FLOW_CREDENTIALS_FILE', 'dev_credentials.json'))
+                    self.opts.dialogflow_credentials_file)
             self.session_client = dialogflow.SessionsClient(credentials=self.credentials)
             self.session = self.session_client.session_path(
                     self.project_id, self.session_id)

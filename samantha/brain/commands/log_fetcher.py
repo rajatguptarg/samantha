@@ -6,7 +6,7 @@ Author: Rajat Gupta
 Description:
 """
 
-import os
+import configargparse
 
 from iaac.tasks import Command
 from iaac import ResultCallback
@@ -40,6 +40,13 @@ class LogFetcher(BotCommand):
         self.data = MessageToDict(response)
         self.channel = channel
         self.callback = LogFetcherCallback(self.channel)
+        parser = configargparse.get_argument_parser()
+        parser.add_argument(
+            '-i', '--ansible-inventory-file', dest='ansible_inventory_file',
+            env_var='ANSIBLE_INVENTORY_FILE', help='Path for ansible inventory files'
+        )
+        opts = parser.parse_known_args()[0]
+        self.inventory_file_path = opts.ansible_inventory_file
         super(LogFetcher, self).__init__()
 
     @property
@@ -66,7 +73,7 @@ class LogFetcher(BotCommand):
         """
         Command Executioner
         """
-        self._sources = os.getenv('ANSIBLE_INVENTORY_FILE') + self.environment
+        self._sources = self.inventory_file_path + self.environment
         self.sender.slack_client.send_text(text=self.QUICK_REPLY, channel=self.channel)
         self.ansible_service.initialize(
             self._sources, self.servers, self._build_ansible_tasks(), self.callback
@@ -92,7 +99,7 @@ class LogFetcherCallback(ResultCallback):
         """
         host = result._host
         output = result._result.get('stdout', '')
-        filename = host.name + '.txt'
+        filename = host.name + '.log'
         return self.sender.slack_client.send_text_as_file(
             content=output, channel=self.channel, filename=filename,
             filetype='text', title=filename
