@@ -1,11 +1,10 @@
 ```
-                                 _   _
+                                _   _
  ___  __ _ _ __ ___   __ _ _ __ | |_| |__   __ _
 / __|/ _` | '_ ` _ \ / _` | '_ \| __| '_ \ / _` |
 \__ \ (_| | | | | | | (_| | | | | |_| | | | (_| |
 |___/\__,_|_| |_| |_|\__,_|_| |_|\__|_| |_|\__,_|
 ```
-
 
 **Circle CI**: [![CircleCI](https://circleci.com/gh/rajatguptarg/samantha.svg?style=svg)](https://circleci.com/gh/rajatguptarg/samantha)
 
@@ -66,7 +65,13 @@ If you want to build your own version of Samantha, you need the following:
 
 ## Architecture
 
-Coming Soon!
+The architecture of Samantha as follows:
+
+
+
+![alt-text](docs/samantha.png)
+
+User can choose, whether to send data to slack or to email.
 
 ## Deploy
 
@@ -77,5 +82,5 @@ Coming Soon!
 
 The onboaring involves adding new servers for Samantha to reach or modify the existing commands for your need. Here are list of commands for onboarding:
 
-* [Log Fetcher]()
+* [Log Fetcher](docs/onboarding/log-fetcher.md)
 
