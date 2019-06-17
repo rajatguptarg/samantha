@@ -8,7 +8,7 @@ Description:
 
 import unittest
 
-from samantha import __version__
+from samantha import __version__, __project_name__
 
 
 class TestSample(unittest.TestCase):
@@ -23,6 +23,9 @@ class TestSample(unittest.TestCase):
 
     def test_0001_test_version(self):
         self.assertGreaterEqual(__version__.__version__, '0.0.1')
+
+    def test_0001_test_project_name(self):
+        self.assertEquals(__project_name__.__project_name__, 'samantha')
 
 
 def suite():
