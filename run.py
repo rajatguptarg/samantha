@@ -70,7 +70,7 @@ def main():
     else:
         loglevel = logging.INFO
 
-    f = Figlet(font='larry3d')
+    f = Figlet(font='doom')
 
     # Logger Configurations
     logger = logging.getLogger()
@@ -85,7 +85,7 @@ def main():
     rtm_client = slack.RTMClient(
             token=slack_token, ssl=ssl_context, loop=loop, run_async=True,
             auto_reconnect=True)
-    print(f.renderText('{} {}'.format(__project_name__, __version__)))
+    print(f.renderText('{}\nVer:  {}'.format(__project_name__, __version__)))
     loop.run_until_complete(rtm_client.start())
 
 
