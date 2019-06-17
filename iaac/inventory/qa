@@ -1,0 +1,9 @@
+[control_machine]
+localhost
+
+[dev]
+localhost ansible_connection=local
+192.168.120.26
+
+[rts]
+192.168.120.26

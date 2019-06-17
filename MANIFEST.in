@@ -1,4 +1,11 @@
 recursive-include samantha *.py
+
+recursive-include iaac *.yml
+recursive-include iaac *.py
+recursive-include iaac/inventory *
+
+recursive-include callback_plugins *.py
+
 include README.md
 include *.py
 include *.txt
@@ -21,3 +28,6 @@ prune config
 prune tests
 prune .circleci
 prune credentials.json
+prune Vagrantfile
+prune .vault_password.txt
+prune test.py

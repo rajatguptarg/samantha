@@ -42,4 +42,5 @@ class SlackMessageEventListener(object):
 
         if not data.get("subtype") == 'bot_message':
             responder_response = responder.get_response(text)
-            return processor.process(responder_response, channel_id)
+            if responder_response is not None:
+                return processor.process(responder_response, channel_id)
