@@ -12,10 +12,8 @@ import slack
 import ssl as ssl_lib
 import certifi
 import asyncio
-from logging.config import dictConfig
 
 from samantha.listeners import SlackMessageEventListener
-
 
 
 # ========= Event Listeners =============

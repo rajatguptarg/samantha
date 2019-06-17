@@ -24,7 +24,7 @@ AUTHOR = 'Rajat Gupta'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    'twine', 'requests'
+    line.rstrip('\n') for line in open('requirements.txt')
 ]
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -117,12 +117,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy'
     ],
     test_suite='tests.suite',
     tests_require=REQUIRED,

@@ -7,13 +7,13 @@ Description:
 """
 
 
-from samantha.brain.commands.command import Command
+from samantha.brain.commands.command import BotCommand
 
 
 __all__ = ['Welcome']
 
 
-class Welcome(Command):
+class Welcome(BotCommand):
     """
     Command class for Welcome messages
     """
@@ -26,5 +26,5 @@ class Welcome(Command):
         """
         Command Executioner
         """
-        return self.sender.send_text(
+        return self.sender.slack_client.send_text(
                 text=self.text, channel=self.channel)
