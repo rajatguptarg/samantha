@@ -27,24 +27,51 @@ To learn about building bots, please refer to [Setting Up Slack Bot](/docs/tutor
     pip install -r requirements.txt
     ```
 
+* Create the application configuration file in YAML format just like `config.yml` and fill all the values correctly. The `config.yml` should look like:
+
+    ```yaml
+    smtp:
+      username: test
+      password: test
+      host: test
+      port: 123
+      sender: test
+      sender_name: test
+    
+    slack:
+      bot_token: test
+    
+    ansible:
+      vault_pass: test
+      inventory_file: /samantha/iaac/inventory/
+    
+    dialogflow:
+      project_id: test
+      session_id: test
+      lang_code: en
+      credentials_file: /samantha/dev_credentials.json
+    
+    log_file_map:
+      rts:
+        prod: /va/log/syslog
+        staging: /va/log/syslog
+        qa: /va/log/syslog
+        dev: /va/log/syslog
+    ```
+
+    
+
 * Either set the following environment variables or:
 
     ```shell
-    export SLACK_BOT_TOKEN="xoxb-xxxx-xxx-xxxx"
-    export DIAG_FLOW_PROJECT_ID="xxx"
-    export DIAG_FLOW_SESSION_ID="xxxx"
-    export DIAG_FLOW_LANG_CODE="xx"
-    export DIAG_FLOW_CREDENTIALS_FILE="xxx.json"
+    export CONFIG_FILE="/path/to/config.yml"
     export LOG_LEVEL=1
-    export ANSIBLE_CONFIG="/path/to/ansible.cfg"
-    export ANSIBLE_VAULT_PASS="xxxxx"
-    export ANSIBLE_INVENTORY_FILE="/samantha/iaac/inventory/"
     ```
-
+    
 * Run the project by passing command line args:
 
     ```shell
-    python run.py -t xoxb-xxxxx-xxxxx-xxxx -p xxx -s xxxx -lc xx -c xxxxx.json -ap xxxx -i /samantha/iaac/inventory/
+    python run.py -c /path/to/config.yml -d
     ```
 
     
