@@ -18,6 +18,7 @@ from pyfiglet import Figlet
 
 from samantha.__project_name__ import __project_name__
 from samantha.__version__ import __version__
+from samantha import config
 
 from samantha.listeners import SlackMessageEventListener
 
@@ -131,36 +132,12 @@ def main():
     parser = configargparse.ArgParser(description='Samatha Configurations')
 
     parser.add_argument(
-        '-t', '--slack-bot-token', dest='slack_bot_token', env_var='SLACK_BOT_TOKEN',
-        help='Slack bot token in format of xoxb-xx-xx'
-    )
-    parser.add_argument(
-        '-p', '--dialogflow-project-id', dest='dialogflow_project_id',
-        env_var='DIAG_FLOW_PROJECT_ID', help='Project of DiaglogFlow Project'
-    )
-    parser.add_argument(
-        '-s', '--dialogflow-session-id', dest='dialogflow_session_id',
-        env_var='DIAG_FLOW_SESSION_ID', help='Session of DiaglogFlow'
-    )
-    parser.add_argument(
-        '-lc', '--dialogflow-lang-code', dest='dialogflow_lang_code',
-        env_var='DIAG_FLOW_LANG_CODE', help='Language code for DiaglogFlow'
-    )
-    parser.add_argument(
-        '-c', '--dialogflow-credentials-file', dest='dialogflow_credentials_file',
-        env_var='DIAG_FLOW_CREDENTIALS_FILE', help='Credentials for DiaglogFlow Project'
+        '-c', '--config_file', dest='config_file', env_var='CONFIG_FILE',
+        help='Configuration file for the application', required=True
     )
     parser.add_argument(
         '-d', '--debug', action='store_true',
         env_var='LOG_LEVEL', help='Enable debug logging'
-    )
-    parser.add_argument(
-        '-ap', '--ansible-vault-pass', dest='ansible_vault_pass',
-        env_var='ANSIBLE_VAULT_PASS', help='Ansible vault password'
-    )
-    parser.add_argument(
-        '-i', '--ansible-inventory-file', dest='ansible_inventory_file',
-        env_var='ANSIBLE_INVENTORY_FILE', help='Path for ansible inventory files'
     )
 
     args = parser.parse_args()
@@ -183,7 +160,8 @@ def main():
 
     # Application configuration
     ssl_context = ssl_lib.create_default_context(cafile=certifi.where())
-    slack_token = args.slack_bot_token
+    slack_config = config.get_slack_config()
+    slack_token = slack_config.bot_token
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     rtm_client = slack.RTMClient(

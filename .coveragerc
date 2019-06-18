@@ -10,7 +10,7 @@ exclude_lines =
     raise NotImplementedError
 
 show_missing = 1
-omit = */tests/*,*/listeners/*,*/responder/*,*/brain/*,*/sender/*,*/response_builder/*
+omit = */tests/*,*/listeners/*,*/responder/*,*/brain/*,*/sender/*,*/response_builder/*,*/repository/*,samantha/config.py
 ignore_errors = True
 
 [html]

@@ -6,7 +6,7 @@ Author: Rajat Gupta
 Description:
 """
 
-from samantha.sender.slack import SlackWebClient
+from samantha.sender.slack_client import SlackWebClient
 from samantha.sender.senders import Sender
 
 

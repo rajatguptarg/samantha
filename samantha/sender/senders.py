@@ -7,7 +7,7 @@ Description:
 """
 
 
-from samantha.sender.slack import SlackWebClient
+from samantha.sender.slack_client import SlackWebClient
 
 
 __all__ = ['Sender']

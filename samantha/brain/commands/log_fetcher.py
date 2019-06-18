@@ -6,11 +6,10 @@ Author: Rajat Gupta
 Description:
 """
 
-import configargparse
-
 from iaac.tasks import Command
 from iaac import ResultCallback
 
+from samantha import config
 from samantha.brain.commands.command import BotCommand
 from google.protobuf.json_format import MessageToDict
 
@@ -40,13 +39,8 @@ class LogFetcher(BotCommand):
         self.data = MessageToDict(response)
         self.channel = channel
         self.callback = LogFetcherCallback(self.channel)
-        parser = configargparse.get_argument_parser()
-        parser.add_argument(
-            '-i', '--ansible-inventory-file', dest='ansible_inventory_file',
-            env_var='ANSIBLE_INVENTORY_FILE', help='Path for ansible inventory files'
-        )
-        opts = parser.parse_known_args()[0]
-        self.inventory_file_path = opts.ansible_inventory_file
+        opts = config.get_ansible_config()
+        self.inventory_file_path = opts.inventory_file
         super(LogFetcher, self).__init__()
 
     @property

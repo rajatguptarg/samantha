@@ -1,0 +1,27 @@
+smtp:
+  username: test
+  password: test
+  host: test
+  port: 123
+  sender: test
+  sender_name: test
+
+slack:
+  bot_token: test
+
+ansible:
+  vault_pass: test
+  inventory_file: /samantha/iaac/inventory/
+
+dialogflow:
+  project_id: test
+  session_id: test
+  lang_code: en
+  credentials_file: /samantha/dev_credentials.json
+
+log_file_map:
+  rts:
+    prod: /va/log/syslog
+    staging: /va/log/syslog
+    qa: /va/log/syslog
+    dev: /va/log/syslog

@@ -116,3 +116,4 @@ logs/
 .vagrant/
 .vault_password.txt
 test.py
+app_config.yml

@@ -7,7 +7,6 @@ Description:
 """
 
 import shutil
-import configargparse
 from ansible.module_utils.common.collections import ImmutableDict
 from ansible.parsing.dataloader import DataLoader
 from ansible.vars.manager import VariableManager
@@ -16,6 +15,8 @@ from ansible.playbook.play import Play
 from ansible.executor.task_queue_manager import TaskQueueManager
 from ansible import context
 import ansible.constants as C
+
+from samantha import config
 
 
 __all__ = ['AnsibleService']
@@ -40,14 +41,8 @@ class AnsibleService(object):
         self._hosts = None
         self._tasks = None
         self._callback = None
-
-        parser = configargparse.get_argument_parser()
-        parser.add_argument(
-            '-ap', '--ansible-vault-pass', dest='ansible_vault_pass',
-            env_var='ANSIBLE_VAULT_PASS', help='Ansible vault password'
-        )
-        opts = parser.parse_known_args()[0]
-        self._passwords = dict(vault_pass=opts.ansible_vault_pass)
+        opts = config.get_ansible_config()
+        self._passwords = dict(vault_pass=opts.vault_pass)
 
     def initialize(self, sources: str, hosts: str, tasks: list, callback=None):
         """

@@ -35,3 +35,4 @@ prune credentials.json
 prune Vagrantfile
 prune .vault_password.txt
 prune test.py
+prune app_config.yml
