@@ -21,6 +21,7 @@ recursive-include docs *.jpg
 recursive-include docs *.png
 recursive-include docs *.xml
 include *.json
+include *.yml
 
 global-exclude *.swp
 
