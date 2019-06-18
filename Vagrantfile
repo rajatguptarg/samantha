@@ -86,5 +86,12 @@ Vagrant.configure("2") do |config|
     echo "#{vault_password}" > /etc/ansible/.vault_password.txt
     touch /var/log/ansible.log
     chmod 0777 /var/log/ansible.log
+
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+    echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb.list
+    apt update
+    apt install mongodb-org
+    systemctl enable mongod
+    systemctl start mongod
   SHELL
 end
