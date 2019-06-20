@@ -78,13 +78,13 @@ class LogFetcherCallback(ResultCallback):
     Inherits all the default behaviour of ansible callback
     """
     def __init__(self, channel, send_mediums, user):
+        super(LogFetcherCallback, self).__init__()
         self.channel = channel
         self.user = user
         self.send_mediums = send_mediums
         self.email_subject = "Request for Log Files"
         self.default_body = "Please see the attached logs"
         self.recipient = self.user.profile.email
-        super(LogFetcherCallback, self).__init__()
 
     def v2_runner_on_ok(self, result, **kwargs):
         """
