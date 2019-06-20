@@ -26,7 +26,7 @@ class ResponderMessageProcessor(object):
         self.sender = SlackWebClient()
         self.factory = CommandFactory()
 
-    def process(self, response, channel):
+    def process(self, response, channel, user):
         """
         Process responder's response
         """
@@ -34,5 +34,5 @@ class ResponderMessageProcessor(object):
         if not response:
             text = str(response) + "\nI can not perform this yet. This is coming soon!"
             return self.sender.send_text(text=text, channel=channel)
-        command = self.factory.get_command(response, channel)
+        command = self.factory.get_command(response, channel, user)
         return command.execute()

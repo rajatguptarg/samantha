@@ -9,6 +9,7 @@ Description:
 import slack
 import logging
 
+from samantha import entities
 from samantha.responder import DiagFlowClient
 from samantha.brain import ResponderMessageProcessor
 
@@ -29,17 +30,25 @@ class SlackMessageEventListener(object):
 
     @staticmethod
     @slack.RTMClient.run_on(event="message")
-    def listen(**payload):
+    async def listen(**payload):
         """Display the onboarding welcome message after receiving a message
         that contains "start".
         """
         data = payload["data"]
-        channel_id = data.get("channel")
-        text = data.get("text")
-
-        logger.info("Recieved Payload: %s" % (str(payload)))
-
         if not data.get("subtype") == 'bot_message':
+            channel_id = data.get("channel")
+            text = data.get("text")
+            user_id = data.get("user")
+            user_dict = await SlackMessageEventListener.get_user(
+                    user_id, payload['web_client'])
+            user = entities.dict_to_object(user_dict).user
+            logger.info("Recieved Payload: %s" % (str(payload)))
+
             responder_response = responder.get_response(text)
             if responder_response is not None:
-                return processor.process(responder_response, channel_id)
+                return processor.process(responder_response, channel_id, user)
+
+    @staticmethod
+    async def get_user(user_id, client):
+        response = await client.users_info(user=user_id)
+        return response.data

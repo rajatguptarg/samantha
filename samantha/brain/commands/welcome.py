@@ -17,14 +17,18 @@ class Welcome(BotCommand):
     """
     Command class for Welcome messages
     """
-    def __init__(self, text, channel):
-        self.text = text
-        self.channel = channel
+    name = 'welcome'
+
+    def __init__(self, response, channel, user):
         super(Welcome, self).__init__()
+        self.response = response
+        self.user = user
+        self.channel = channel
 
     def execute(self):
         """
         Command Executioner
         """
+        text = self.response.query_result.fulfillment_text
         return self.sender.slack_client.send_text(
-                text=self.text, channel=self.channel)
+                text=text, channel=self.channel)

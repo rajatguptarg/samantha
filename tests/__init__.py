@@ -8,6 +8,7 @@ Description:
 
 import unittest
 from .test_sample import TestSample
+from .test_entities import TestEntity
 
 
 def suite():
@@ -17,6 +18,7 @@ def suite():
     test_suite = unittest.TestSuite()
     test_suite.addTests([
         unittest.TestLoader().loadTestsFromTestCase(TestSample),
+        unittest.TestLoader().loadTestsFromTestCase(TestEntity),
     ])
     return test_suite
 

@@ -69,10 +69,10 @@ def get_slack_config():
     return SlackConfig(**config)
 
 
-def get_log_file_map():
+def get_command_setting(command):
     """
     Returns the log file dict
     """
     app_config = build_config()
-    config = app_config['log_file_map']
+    config = app_config['commands_settings'][command]
     return config

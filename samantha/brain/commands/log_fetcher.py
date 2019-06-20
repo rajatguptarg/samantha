@@ -22,26 +22,21 @@ class LogFetcher(BotCommand):
     Log class for log fetching
 
     In case of, adding more servers with log files, please add server
-    wrt each environemts in the LOG_FILE_MAP
+    wrt each environemts in the log_file_map in application config
     """
+    name = 'log_fetcher'
     QUICK_REPLY = 'I am on it. I will send you the file once I am done'
 
-    LOG_FILE_MAP = {
-        'rts': {
-            'prod': '/var/log/erlnoc/live/console.log',
-            'staging': '/var/log/erlnoc/pilot/console.log',
-            'qa': '/var/log/erlnoc/sim_ops/console.log',
-            'dev': '/var/log/erlnoc/sim_ops/console.log',
-        },
-    }
-
-    def __init__(self, response, channel):
+    def __init__(self, response, channel, user):
+        super(LogFetcher, self).__init__()
+        self.user = user
         self.data = MessageToDict(response)
         self.channel = channel
-        self.callback = LogFetcherCallback(self.channel)
         opts = config.get_ansible_config()
+        command_config = config.get_command_setting(self.name)
+        self.log_file_map = command_config['log_file_map']
+        self.send_mediums = command_config['send_via']
         self.inventory_file_path = opts.inventory_file
-        super(LogFetcher, self).__init__()
 
     @property
     def environment(self):
@@ -57,7 +52,7 @@ class LogFetcher(BotCommand):
 
     def _build_ansible_tasks(self):
         try:
-            filename = self.LOG_FILE_MAP.get(self.servers).get(self.environment)
+            filename = self.log_file_map.get(self.servers).get(self.environment)
         except:
             filename = '/var/log/syslog'
         task_1 = Command(argv=['cat', filename])
@@ -67,6 +62,7 @@ class LogFetcher(BotCommand):
         """
         Command Executioner
         """
+        self.callback = LogFetcherCallback(self.channel, self.send_mediums, self.user)
         self._sources = self.inventory_file_path + self.environment
         self.sender.slack_client.send_text(text=self.QUICK_REPLY, channel=self.channel)
         self.ansible_service.initialize(
@@ -81,8 +77,13 @@ class LogFetcherCallback(ResultCallback):
 
     Inherits all the default behaviour of ansible callback
     """
-    def __init__(self, channel):
+    def __init__(self, channel, send_mediums, user):
         self.channel = channel
+        self.user = user
+        self.send_mediums = send_mediums
+        self.email_subject = "Request for Log Files"
+        self.default_body = "Please see the attached logs"
+        self.recipient = self.user.profile.email
         super(LogFetcherCallback, self).__init__()
 
     def v2_runner_on_ok(self, result, **kwargs):
@@ -94,7 +95,26 @@ class LogFetcherCallback(ResultCallback):
         host = result._host
         output = result._result.get('stdout', '')
         filename = host.name + '.log'
-        return self.sender.slack_client.send_text_as_file(
+        if 'slack' in self.send_mediums:
+            self._send_via_slack(output, filename)
+        if 'email' in self.send_mediums:
+            self._send_via_email(output, filename)
+
+    def _send_via_slack(self, output, filename):
+        """
+        Send message via slack
+        """
+        self.sender.slack_client.send_text_as_file(
             content=output, channel=self.channel, filename=filename,
             filetype='text', title=filename
         )
+
+    def _send_via_email(self, output, filename):
+        """
+        Send message via emails
+        """
+        message = self.sender.email_client.build_email(
+            recipient=self.recipient, subject=self.email_subject,
+            text=self.default_body, file_content=output, filename=filename
+        )
+        self.sender.email_client.send(self.recipient, message)
