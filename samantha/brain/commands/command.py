@@ -23,8 +23,11 @@ class BotCommand(ABC):
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self):
+    def __init__(self, channel, user, send_mediums=['slack']):
         self.sender = Sender()
+        self.channel = channel
+        self.user = user
+        self.send_mediums = send_mediums
         opts = config.get_ansible_config()
         self._sources = opts.inventory_file + 'dev'
         self.ansible_service = AnsibleService()

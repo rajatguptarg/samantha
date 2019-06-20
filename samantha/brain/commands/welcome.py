@@ -20,10 +20,8 @@ class Welcome(BotCommand):
     name = 'welcome'
 
     def __init__(self, response, channel, user):
-        super(Welcome, self).__init__()
+        super(Welcome, self).__init__(channel, user)
         self.response = response
-        self.user = user
-        self.channel = channel
 
     def execute(self):
         """

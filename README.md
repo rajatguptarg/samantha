@@ -51,12 +51,17 @@ To learn about building bots, please refer to [Setting Up Slack Bot](/docs/tutor
       lang_code: en
       credentials_file: /samantha/dev_credentials.json
     
-    log_file_map:
-      rts:
-        prod: /va/log/syslog
-        staging: /va/log/syslog
-        qa: /va/log/syslog
-        dev: /va/log/syslog
+    commands_settings:
+      log_fetcher:
+        send_via:
+          - email
+          - slack
+        log_file_map:
+          rts:
+            prod: /va/log/syslog
+            staging: /va/log/syslog
+            qa: /va/log/syslog
+            dev: /va/log/syslog
     ```
 
     

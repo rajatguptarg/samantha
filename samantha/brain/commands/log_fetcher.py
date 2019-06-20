@@ -28,10 +28,8 @@ class LogFetcher(BotCommand):
     QUICK_REPLY = 'I am on it. I will send you the file once I am done'
 
     def __init__(self, response, channel, user):
-        super(LogFetcher, self).__init__()
-        self.user = user
+        super(LogFetcher, self).__init__(channel, user)
         self.data = MessageToDict(response)
-        self.channel = channel
         opts = config.get_ansible_config()
         command_config = config.get_command_setting(self.name)
         self.log_file_map = command_config['log_file_map']
