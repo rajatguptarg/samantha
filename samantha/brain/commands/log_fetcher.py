@@ -9,6 +9,8 @@ Description:
 from iaac.tasks import Command
 from iaac import ResultCallback
 
+from subprocess import Popen, PIPE
+
 from samantha import config
 from samantha.brain.commands.command import BotCommand
 from google.protobuf.json_format import MessageToDict
@@ -31,88 +33,51 @@ class LogFetcher(BotCommand):
         super(LogFetcher, self).__init__(channel, user)
         self.data = MessageToDict(response)
         opts = config.get_ansible_config()
-        command_config = config.get_command_setting(self.name)
-        self.log_file_map = command_config['log_file_map']
-        self.send_mediums = command_config['send_via']
+        self.command_config = config.get_command_setting(self.name)
+        self.iaac_path = opts.home_location
+        self.send_mediums = self.command_config['send_via']
         self.inventory_file_path = opts.inventory_file
+        self.email_subject = "Request for Log Files"
+        self.default_body = "Please see the attached logs"
+        self.recipient = self.user.profile.email
 
     @property
     def environment(self):
         return self.data['queryResult']['parameters']['env']
 
     @property
-    def servers(self):
+    def server(self):
         return self.data['queryResult']['parameters']['servers'][0]
 
     @property
     def fileage(self):
         return self.data['queryResult']['parameters']['day']
 
-    def _build_ansible_tasks(self):
-        try:
-            filename = self.log_file_map.get(self.servers).get(self.environment)
-        except:
-            filename = '/var/log/syslog'
-        task_1 = Command(argv=['cat', filename])
-        return [task_1.action()]
-
     def execute(self):
         """
         Command Executioner
         """
-        self.callback = LogFetcherCallback(self.channel, self.send_mediums, self.user)
-        self._sources = self.inventory_file_path + self.environment
-        self.sender.slack_client.send_text(text=self.QUICK_REPLY, channel=self.channel)
-        self.ansible_service.initialize(
-            self._sources, self.servers, self._build_ansible_tasks(), self.callback
+        filename = 'output'
+        playbook = self.command_config.get('playbook_map').get(self.server)
+        command = 'ansible-playbook -i ' + \
+            self.inventory_file_path + self.environment + ' ' + playbook
+
+        process = Popen(
+            [command], shell=True, cwd=self.iaac_path,
+            stdout=PIPE, stderr=PIPE
         )
-        return self.ansible_service.run()
+        stdout, stderr = process.communicate()
+        output = stdout.decode("utf-8")
+        stderr = stderr.decode("utf-8")
 
-
-class LogFetcherCallback(ResultCallback):
-    """
-    Callback plugin for ansible
-
-    Inherits all the default behaviour of ansible callback
-    """
-    def __init__(self, channel, send_mediums, user):
-        super(LogFetcherCallback, self).__init__()
-        self.channel = channel
-        self.user = user
-        self.send_mediums = send_mediums
-        self.email_subject = "Request for Log Files"
-        self.default_body = "Please see the attached logs"
-        self.recipient = self.user.profile.email
-
-    def v2_runner_on_ok(self, result, **kwargs):
-        """
-        Print a json representation of the result
-
-        This method could store the result in an instance attribute for retrieval later
-        """
-        host = result._host
-        output = result._result.get('stdout', '')
-        filename = host.name + '.log'
         if 'slack' in self.send_mediums:
-            self._send_via_slack(output, filename)
+            self.sender.slack_client.send_text_as_file(
+                content=output, channel=self.channel, filename=filename,
+                filetype='text', title=filename
+            )
         if 'email' in self.send_mediums:
-            self._send_via_email(output, filename)
-
-    def _send_via_slack(self, output, filename):
-        """
-        Send message via slack
-        """
-        self.sender.slack_client.send_text_as_file(
-            content=output, channel=self.channel, filename=filename,
-            filetype='text', title=filename
-        )
-
-    def _send_via_email(self, output, filename):
-        """
-        Send message via emails
-        """
-        message = self.sender.email_client.build_email(
-            recipient=self.recipient, subject=self.email_subject,
-            text=self.default_body, file_content=output, filename=filename
-        )
-        self.sender.email_client.send(self.recipient, message)
+            message = self.sender.email_client.build_email(
+                recipient=self.recipient, subject=self.email_subject,
+                text=self.default_body, file_content=output, filename=filename
+            )
+            self.sender.email_client.send(self.recipient, message)

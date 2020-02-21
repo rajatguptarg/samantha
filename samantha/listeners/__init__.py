@@ -6,7 +6,7 @@ Author: Rajat Gupta
 Description:
 """
 
-from samantha.listeners.slack import SlackMessageEventListener
+from samantha.listeners.message_event import SlackMessageEventListener
 
 
 __all__ = ['SlackMessageEventListener']
