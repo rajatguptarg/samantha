@@ -29,7 +29,9 @@ class CallbackModule(CallbackBase):
         self.start_time = datetime.now()
 
     def _days_hours_minutes_seconds(self, runtime):
-        ''' internal helper method for this callback '''
+        """
+        Internal helper method for this callback
+        """
         minutes = (runtime.seconds // 60) % 60
         r_seconds = runtime.seconds - (minutes * 60)
         return runtime.days, runtime.seconds // 3600, minutes, r_seconds
@@ -46,6 +48,54 @@ class CallbackModule(CallbackBase):
         self.results.append({host.name: result._result})
         if result.is_changed():
             self._display.display(json.dumps({host.name: result._result}, indent=4))
+
+    def v2_runner_on_failed(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        pass
+
+    def v2_runner_on_skipped(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        pass
+
+    def v2_runner_on_unreachable(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        pass
+
+    def v2_runner_on_no_hosts(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        pass
+
+    def v2_playbook_item_on_ok(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        pass
+
+    def v2_playbook_item_on_skipped(self, result, **kwargs):
+        """
+        Print a json representation of the result
+
+        This method could store the result in an instance attribute for retrieval later
+        """
+        pass
 
     def v2_playbook_on_stats(self, stats, **kwargs):
         """
