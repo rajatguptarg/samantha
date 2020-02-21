@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.33.100", auto_config: false
+  config.vm.network "private_network", ip: "192.168.33.100", auto_config: true
 
   config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", disabled: true
   config.vm.network :forwarded_port, guest: 22, host: 2233, auto_correct: true
@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
-    vb.memory = "1024"
+    vb.memory = "2048"
   end
   #
   # View the documentation for the provider you are using for more

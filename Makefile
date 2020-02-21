@@ -1,5 +1,5 @@
 init:
-	pip install -r requirements.txt
+	pip3 install -r requirements.txt
 
 test:
 	coverage run setup.py test
@@ -8,10 +8,10 @@ test:
 	coverage report -m
 
 build:
-	python setup.py sdist
+	python3 setup.py sdist
 
 check:
 	check-manifest
 
 publish:
-	python setup.py publish
+	python3 setup.py publish
