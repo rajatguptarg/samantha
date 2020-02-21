@@ -1,0 +1,7 @@
+---
+- name: Getting the log file
+  become: yes
+  debug:
+    var: item
+  with_file:
+    - '{{ log_file }}'

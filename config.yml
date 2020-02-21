@@ -11,6 +11,8 @@ slack:
 
 ansible:
   vault_pass: test
+  remote_user: test
+  home_location: test
   inventory_file: /samantha/iaac/inventory/
 
 dialogflow:
@@ -19,9 +21,11 @@ dialogflow:
   lang_code: en
   credentials_file: /samantha/dev_credentials.json
 
-log_file_map:
-  rts:
-    prod: /va/log/syslog
-    staging: /va/log/syslog
-    qa: /va/log/syslog
-    dev: /va/log/syslog
+commands_settings:
+  log_fetcher:
+    send_via:
+      - email
+      - slack
+
+    playbook_map:
+      ansible: fetch-ansible-log-file.yml

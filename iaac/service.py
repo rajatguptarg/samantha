@@ -102,8 +102,8 @@ class AnsibleService(object):
         """
         Setup the context object
         """
-        context.CLIARGS = ImmutableDict(connection='ssh', forks=10, become=None,
-                remote_user='rajat',
+        context.CLIARGS = ImmutableDict(connection='ssh', forks=10, become='sudo',
+                remote_user='samantha',
                 become_method=True, become_user='root', check=False, diff=False,
                 verbosity=3)
         return context

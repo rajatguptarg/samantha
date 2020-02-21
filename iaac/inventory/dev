@@ -3,8 +3,7 @@ localhost
 
 [dev]
 localhost ansible_connection=local
-192.168.120.26
+10.0.2.15
 
-[rts]
-192.168.120.26
-192.168.130.16
+[ansible]
+10.0.2.15

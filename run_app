@@ -1,0 +1,4 @@
+#!/bin/sh
+export ANSIBLE_CONFIG=/samantha/iaac/ansible.cfg
+
+./run.py -c app_config.yml
