@@ -27,6 +27,9 @@ global-exclude *.swp
 
 recursive-exclude samantha *.pyc
 recursive-exclude .circleci *.yml
+include run_app
+recursive-include iaac *.cfg
+recursive-include iaac *.md
 
 prune config
 prune tests

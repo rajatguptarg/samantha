@@ -6,9 +6,6 @@ Author: Rajat Gupta
 Description:
 """
 
-from iaac.tasks import Command
-from iaac import ResultCallback
-
 from subprocess import Popen, PIPE
 
 from samantha import config
