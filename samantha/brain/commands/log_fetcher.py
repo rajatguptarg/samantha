@@ -6,6 +6,7 @@ Author: Rajat Gupta
 Description:
 """
 
+import logging
 from subprocess import Popen, PIPE
 
 from samantha import config
@@ -14,6 +15,8 @@ from google.protobuf.json_format import MessageToDict
 
 
 __all__ = ['LogFetcher']
+
+logger = logging.getLogger(__name__)
 
 
 class LogFetcher(BotCommand):
@@ -58,6 +61,8 @@ class LogFetcher(BotCommand):
         playbook = self.command_config.get('playbook_map').get(self.server)
         command = 'ansible-playbook -i ' + \
             self.inventory_file_path + self.environment + ' ' + playbook
+
+        logger.info("Running command: %s" % (str(command)))
 
         process = Popen(
             [command], shell=True, cwd=self.iaac_path,
