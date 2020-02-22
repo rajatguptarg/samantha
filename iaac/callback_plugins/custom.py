@@ -9,6 +9,7 @@ Description:
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
+import os
 import json
 from datetime import datetime
 from ansible.plugins.callback import CallbackBase
@@ -42,12 +43,16 @@ class CallbackModule(CallbackBase):
 
         This method could store the result in an instance attribute for retrieval later
         """
-        f= open("guru99.txt","w+")
-        f.close()
+        # f= open("guru99.txt","w+")
+        # f.close()
         host = result._host
-        self.results.append({host.name: result._result})
+
+        # skip gather host logging
+        if not 'ansible_facts' in result._result:
+            self.results.append({host.name: result._result})
         if result.is_changed():
-            self._display.display(json.dumps({host.name: result._result}, indent=4))
+            pass
+            # self._display.display(json.dumps({host.name: result._result}, indent=4))
 
     def v2_runner_on_failed(self, result, **kwargs):
         """
@@ -116,6 +121,7 @@ class CallbackModule(CallbackBase):
         global_custom_stats = {}
 
         custom_stats.update(run_time = run_time_in_secs)
+        custom_stats.update(task_id = os.environ.get('task_id'))
         custom_stats.update(dict((self._convert_host_to_name(k), v) for k, v in stats.custom.items()))
         global_custom_stats.update(custom_stats.pop('_run', {}))
 

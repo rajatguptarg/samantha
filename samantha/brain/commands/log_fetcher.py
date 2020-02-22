@@ -6,8 +6,9 @@ Author: Rajat Gupta
 Description:
 """
 
+import os
+import json
 import logging
-from subprocess import Popen, PIPE
 
 from samantha import config
 from samantha.brain.commands.command import BotCommand
@@ -53,33 +54,39 @@ class LogFetcher(BotCommand):
     def fileage(self):
         return self.data['queryResult']['parameters']['day']
 
+    def _get_command(self):
+        """
+        Returns the ansible command
+        """
+        playbook = self.command_config.get('playbook_map').get(self.server)
+        command = 'ansible-playbook -i ' + \
+            self.inventory_file_path + self.environment + ' ' + playbook
+        return command
+
     def execute(self):
         """
         Command Executioner
         """
         filename = 'output'
-        playbook = self.command_config.get('playbook_map').get(self.server)
-        command = 'ansible-playbook -i ' + \
-            self.inventory_file_path + self.environment + ' ' + playbook
+        task_id = self.generate_uuid()
+        env_vars = os.environ.copy()
+        env_vars.update({'task_id': task_id})
+        command = self._get_command()
+        logger.info("Running command: %s with task id %s." % (str(command), task_id))
 
-        logger.info("Running command: %s" % (str(command)))
-
-        process = Popen(
-            [command], shell=True, cwd=self.iaac_path,
-            stdout=PIPE, stderr=PIPE
-        )
-        stdout, stderr = process.communicate()
-        output = stdout.decode("utf-8")
-        stderr = stderr.decode("utf-8")
+        output, error, rc = self.run_command(
+            command=command, cwd=self.iaac_path, env=env_vars)
+        json_output = self.parse_stdout_to_json(output)
+        str_output = json.dumps(json_output)
 
         if 'slack' in self.send_mediums:
             self.sender.slack_client.send_text_as_file(
-                content=output, channel=self.channel, filename=filename,
+                content=str_output, channel=self.channel, filename=filename,
                 filetype='text', title=filename
             )
         if 'email' in self.send_mediums:
             message = self.sender.email_client.build_email(
                 recipient=self.recipient, subject=self.email_subject,
-                text=self.default_body, file_content=output, filename=filename
+                text=self.default_body, file_content=str_output, filename=filename
             )
             self.sender.email_client.send(self.recipient, message)
