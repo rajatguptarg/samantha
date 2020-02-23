@@ -82,7 +82,7 @@ class LogFetcher(BotCommand):
         if 'slack' in self.send_mediums:
             self.sender.slack_client.send_text_as_file(
                 content=str_output, channel=self.channel, filename=filename,
-                filetype='text', title=filename
+                filetype='json', title=filename
             )
         if 'email' in self.send_mediums:
             message = self.sender.email_client.build_email(
