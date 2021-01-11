@@ -34,19 +34,23 @@ class SlackMessageEventListener(object):
         """Display the onboarding welcome message after receiving a message
         that contains "start".
         """
+        BLACKLIST = ['C01JG2PQ75J']
+        BOT_USER_ID = 'U01JAB70GAF'
+
         data = payload["data"]
         if not data.get("subtype") == 'bot_message':
             channel_id = data.get("channel")
             text = data.get("text")
-            user_id = data.get("user")
-            user_dict = await SlackMessageEventListener.get_user(
-                    user_id, payload['web_client'])
-            user = entities.dict_to_object(user_dict).user
-            logger.info("Recieved Payload: %s" % (str(payload)))
+            if (BOT_USER_ID in text) or (channel_id not in BLACKLIST):
+                user_id = data.get("user")
+                user_dict = await SlackMessageEventListener.get_user(
+                        user_id, payload['web_client'])
+                user = entities.dict_to_object(user_dict).user
+                logger.info("Recieved Payload: %s" % (str(payload)))
 
-            responder_response = responder.get_response(text)
-            if responder_response is not None:
-                return processor.process(responder_response, channel_id, user)
+                responder_response = responder.get_response(text)
+                if responder_response is not None:
+                    return processor.process(responder_response, channel_id, user)
 
     @staticmethod
     async def get_user(user_id, client):
