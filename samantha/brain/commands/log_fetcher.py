@@ -58,10 +58,11 @@ class LogFetcher(BotCommand):
         """
         Returns the ansible command
         """
-        playbook = self.command_config.get('playbook_map').get(self.server)
-        command = 'ansible-playbook -i ' + \
-            self.inventory_file_path + self.environment + ' ' + playbook
-        return command
+        # playbook = self.command_config.get('playbook_map').get(self.server)
+        # command = 'ansible-playbook -i ' + \
+        #     self.inventory_file_path + self.environment + ' ' + playbook
+        # return command
+        return "command"
 
     def execute(self):
         """
@@ -74,10 +75,7 @@ class LogFetcher(BotCommand):
         command = self._get_command()
         logger.info("Running command: %s with task id %s." % (str(command), task_id))
 
-        output, error, rc = self.run_command(
-            command=command, cwd=self.iaac_path, env=env_vars)
-        json_output = self.parse_stdout_to_json(output)
-        str_output = json.dumps(json_output)
+        str_output = '{"status": "feature disabled"}'
 
         if 'slack' in self.send_mediums:
             self.sender.slack_client.send_text_as_file(

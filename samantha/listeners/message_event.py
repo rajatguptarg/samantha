@@ -34,14 +34,15 @@ class SlackMessageEventListener(object):
         """Display the onboarding welcome message after receiving a message
         that contains "start".
         """
-        BLACKLIST = ['C01JG2PQ75J']
+        BLACKLIST_CHANNELS = ['C01JG2PQ75J']
+        WHITELIST_CHANNELS = ['D01HVBTPU23']
         BOT_USER_ID = 'U01JAB70GAF'
 
         data = payload["data"]
         if not data.get("subtype") == 'bot_message':
             channel_id = data.get("channel")
             text = data.get("text")
-            if (BOT_USER_ID in text) or (channel_id not in BLACKLIST):
+            if (BOT_USER_ID in text) or (channel_id in WHITELIST_CHANNELS):
                 user_id = data.get("user")
                 user_dict = await SlackMessageEventListener.get_user(
                         user_id, payload['web_client'])

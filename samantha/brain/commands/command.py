@@ -68,6 +68,10 @@ class BotCommand(ABC):
         """
         Parse the output to json
         """
-        res_index = output.find(self.result_start)
-        res_str = output[res_index:]
-        return json.loads(res_str)
+        try:
+            res_index = output.find(self.result_start)
+            res_str = output[res_index:]
+            return json.loads(res_str)
+        except:
+            res_str = '{"status": "parsing failed."}'
+            return json.loads(res_str)
