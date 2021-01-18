@@ -32,6 +32,7 @@ recursive-include iaac *.cfg
 recursive-include iaac *.md
 
 prune config
+exclude CNAME
 prune tests
 prune .circleci
 prune credentials.json
@@ -39,3 +40,8 @@ prune Vagrantfile
 prune .vault_password.txt
 prune test.py
 prune app_config.yml
+exclude Vagrantfile
+exclude .vault_password.txt
+exclude app_config.yml
+exclude credentials.json
+exclude test.py
