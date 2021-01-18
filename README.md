@@ -8,7 +8,7 @@
 
 **Coveralls Test Coverage**: [![Coverage Status](https://coveralls.io/repos/github/rajatguptarg/samantha/badge.svg?branch=master)](https://coveralls.io/github/rajatguptarg/samantha?branch=master)
 
-**Travis CI**: [![Build Status](https://travis-ci.org/rajatguptarg/samantha.svg?branch=master)](https://travis-ci.org/rajatguptarg/samantha)
+**Travis CI**: [![Build Status](https://travis-ci.com/rajatguptarg/samantha.svg?branch=master)](https://travis-ci.com/rajatguptarg/samantha)
 
 
 
@@ -37,20 +37,20 @@ To learn about building bots, please refer to [Setting Up Slack Bot](/docs/tutor
       port: 123
       sender: test
       sender_name: test
-    
+
     slack:
       bot_token: test
-    
+
     ansible:
       vault_pass: test
       inventory_file: /samantha/iaac/inventory/
-    
+
     dialogflow:
       project_id: test
       session_id: test
       lang_code: en
       credentials_file: /samantha/dev_credentials.json
-    
+
     commands_settings:
       log_fetcher:
         send_via:
@@ -64,7 +64,7 @@ To learn about building bots, please refer to [Setting Up Slack Bot](/docs/tutor
             dev: /va/log/syslog
     ```
 
-    
+
 
 * Either set the following environment variables or:
 
@@ -72,14 +72,14 @@ To learn about building bots, please refer to [Setting Up Slack Bot](/docs/tutor
     export CONFIG_FILE="/path/to/config.yml"
     export LOG_LEVEL=1
     ```
-    
+
 * Run the project by passing command line args:
 
     ```shell
     python run.py -c /path/to/config.yml -d
     ```
 
-    
+
 
 ## Build
 
