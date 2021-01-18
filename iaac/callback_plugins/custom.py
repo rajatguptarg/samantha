@@ -10,10 +10,12 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 import os
+import uuid
 import json
 from datetime import datetime
 from ansible.plugins.callback import CallbackBase
 from ansible.parsing.ajson import AnsibleJSONEncoder
+from ansible.inventory.host import Host
 
 
 class CallbackModule(CallbackBase):
@@ -48,7 +50,7 @@ class CallbackModule(CallbackBase):
         host = result._host
 
         # skip gather host logging
-        if not 'ansible_facts' in result._result:
+        if 'ansible_facts' not in result._result:
             self.results.append({host.name: result._result})
         if result.is_changed():
             pass
@@ -110,6 +112,10 @@ class CallbackModule(CallbackBase):
         runtime = end_time - self.start_time
         run_time_in_secs = runtime.seconds
 
+        task_id = os.environ.get('task_id')
+        if task_id is None:
+            task_id = uuid.uuid1().urn
+
         hosts = sorted(stats.processed.keys())
 
         summary = {}
@@ -120,9 +126,11 @@ class CallbackModule(CallbackBase):
         custom_stats = {}
         global_custom_stats = {}
 
-        custom_stats.update(run_time = run_time_in_secs)
-        custom_stats.update(task_id = os.environ.get('task_id'))
-        custom_stats.update(dict((self._convert_host_to_name(k), v) for k, v in stats.custom.items()))
+        custom_stats.update(run_time=run_time_in_secs)
+        custom_stats.update(task_id=task_id)
+        custom_stats.update(
+            dict((self._convert_host_to_name(k), v) for k, v in stats.custom.items())
+        )
         global_custom_stats.update(custom_stats.pop('_run', {}))
 
         output = {
@@ -132,7 +140,9 @@ class CallbackModule(CallbackBase):
             'global_custom_stats': global_custom_stats,
         }
 
-        self._display.display(json.dumps(output, cls=AnsibleJSONEncoder, indent=4, sort_keys=True))
+        self._display.display(
+            json.dumps(output, cls=AnsibleJSONEncoder, indent=4, sort_keys=True)
+        )
 
     def _convert_host_to_name(self, key):
         if isinstance(key, (Host,)):

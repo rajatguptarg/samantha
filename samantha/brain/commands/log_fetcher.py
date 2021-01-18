@@ -7,7 +7,6 @@ Description:
 """
 
 import os
-import json
 import logging
 
 from samantha import config

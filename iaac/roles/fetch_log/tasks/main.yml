@@ -1,8 +1,12 @@
 ---
+- name: Pause for 5 seconds to build app cache
+  pause:
+    seconds: 5
+
 - name: Getting the log file
   become: yes
   become_user: root
   debug:
     var: item
   with_file:
-    - /var/log/yoyo
+    - "/var/log/hello"

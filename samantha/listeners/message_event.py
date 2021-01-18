@@ -34,7 +34,7 @@ class SlackMessageEventListener(object):
         """Display the onboarding welcome message after receiving a message
         that contains "start".
         """
-        BLACKLIST_CHANNELS = ['C01JG2PQ75J']
+        BLACKLIST_CHANNELS = ['C01JG2PQ75J']    # noqa
         WHITELIST_CHANNELS = ['D01HVBTPU23']
         BOT_USER_ID = 'U01JAB70GAF'
 

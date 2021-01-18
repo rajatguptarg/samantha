@@ -22,6 +22,10 @@ class ResultCallback(CallbackBase):
     the end of the execution, look into utilizing the ``json`` callback plugin
     or writing your own custom callback plugin
     """
+    CALLBACK_VERSION = 2.0
+    CALLBACK_TYPE = 'aggregate'
+    CALLBACK_NAME = 'custom_2'
+
     def __init__(self):
         super(ResultCallback, self).__init__()
         self.sender = Sender()

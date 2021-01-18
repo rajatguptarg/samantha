@@ -1,8 +1,7 @@
 ---
-- hosts: ansible
+- hosts: localhost
+  connection: local
   become: yes
   become_user: root
-  vars:
-    log_file: '{{ ansible.log_file }}'
   roles:
     - fetch_log
