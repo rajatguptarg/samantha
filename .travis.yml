@@ -16,6 +16,8 @@ before_script:
 script:
   - coverage run setup.py test
   - flake8 samantha
+  - check-manifest
+  - python setup.py sdist
   - coverage report -m
   - coverage xml
 after_script:
