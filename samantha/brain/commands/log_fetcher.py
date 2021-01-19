@@ -7,6 +7,7 @@ Description:
 """
 
 import os
+# import json
 import logging
 
 from samantha import config
@@ -61,7 +62,8 @@ class LogFetcher(BotCommand):
         # command = 'ansible-playbook -i ' + \
         #     self.inventory_file_path + self.environment + ' ' + playbook
         # return command
-        return "command"
+        return "ansible-playbook -i inventory/prod -e env=prod \
+            -e hname=localhost fetch-ansible-log-file.yml"
 
     def execute(self):
         """
@@ -74,7 +76,10 @@ class LogFetcher(BotCommand):
         command = self._get_command()
         logger.info("Running command: %s with task id %s." % (str(command), task_id))
 
-        str_output = '{"status": "feature disabled"}'
+        output, error, rc = self.run_command(
+            command=command, cwd=self.iaac_path, env=env_vars)
+        json_output = self.parse_stdout_to_json(output)
+        str_output = json_output.get('plays')[0]['localhost']['stdout']
 
         if 'slack' in self.send_mediums:
             self.sender.slack_client.send_text_as_file(

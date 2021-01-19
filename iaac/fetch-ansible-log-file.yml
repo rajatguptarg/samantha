@@ -1,7 +1,7 @@
 ---
-- hosts: localhost
+- hosts: '{{ hname }}:&{{ env | lower }}'
   connection: local
   become: yes
   become_user: root
   roles:
-    - fetch_log
+    - role: fetch_log

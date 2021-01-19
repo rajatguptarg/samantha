@@ -45,15 +45,18 @@ class CallbackModule(CallbackBase):
 
         This method could store the result in an instance attribute for retrieval later
         """
-        # f= open("guru99.txt","w+")
-        # f.close()
         host = result._host
+        task_registered_as = result._task_fields.get('register')
+        if not task_registered_as:
+            task_registered_as = result.task_name.replace(' ', '_')
 
-        # skip gather host logging
+        task_result = result._result
+        task_result.update(registered_as=task_registered_as)
+
         if 'ansible_facts' not in result._result:
-            self.results.append({host.name: result._result})
-        if result.is_changed():
-            pass
+            self.results.append({host.name: task_result})
+        elif result.is_changed():
+            self.results.append({host.name: task_result})
             # self._display.display(json.dumps({host.name: result._result}, indent=4))
 
     def v2_runner_on_failed(self, result, **kwargs):

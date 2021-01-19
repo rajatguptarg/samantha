@@ -48,7 +48,7 @@ class BotCommand(ABC):
         """
         Returns the string UUID
         """
-        return str(uuid.uuid1())
+        return uuid.uuid1().urn
 
     def run_command(self, command: str, cwd: str, env: dict, shell=True):
         """

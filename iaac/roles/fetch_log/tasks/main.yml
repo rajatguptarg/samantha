@@ -1,12 +1,7 @@
 ---
-- name: Pause for 5 seconds to build app cache
-  pause:
-    seconds: 5
-
-- name: Getting the log file
+- name: fetch CPU output
   become: yes
   become_user: root
-  debug:
-    var: item
-  with_file:
-    - "/var/log/hello"
+  ansible.builtin.shell:
+    cmd:  mpstat -P ALL 1 5
+  register: mpstat_output
