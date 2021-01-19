@@ -1,11 +1,5 @@
 recursive-include samantha *.py
 
-recursive-include iaac *.yml
-recursive-include iaac *.py
-recursive-include iaac/inventory *
-
-recursive-include callback_plugins *.py
-
 include README.md
 include *.py
 include *.txt
@@ -28,8 +22,6 @@ global-exclude *.swp
 recursive-exclude samantha *.pyc
 recursive-exclude .circleci *.yml
 include run_app
-recursive-include iaac *.cfg
-recursive-include iaac *.md
 
 prune config
 exclude CNAME

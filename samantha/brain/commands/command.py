@@ -14,7 +14,6 @@ from abc import ABCMeta, abstractmethod, ABC
 
 from samantha.sender import Sender
 from samantha import config
-from iaac import AnsibleService
 
 
 __all__ = ['BotCommand']
@@ -37,7 +36,6 @@ class BotCommand(ABC):
         self.send_mediums = send_mediums
         opts = config.get_ansible_config()
         self._sources = opts.inventory_file + 'dev'
-        self.ansible_service = AnsibleService()
         super(BotCommand, self).__init__()
 
     @abstractmethod
