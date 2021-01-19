@@ -1,7 +1,0 @@
----
-- hosts: '{{ hname }}:&{{ env | lower }}'
-  connection: local
-  become: yes
-  become_user: root
-  roles:
-    - role: fetch_log

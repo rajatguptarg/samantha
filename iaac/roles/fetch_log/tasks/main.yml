@@ -1,7 +1,0 @@
----
-- name: fetch CPU output
-  become: yes
-  become_user: root
-  ansible.builtin.shell:
-    cmd:  mpstat -P ALL 1 5
-  register: mpstat_output

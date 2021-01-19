@@ -1,9 +1,0 @@
-[control_machine]
-localhost
-
-[prod]
-localhost ansible_connection=local
-10.0.2.15
-
-[ansible]
-10.0.2.15
