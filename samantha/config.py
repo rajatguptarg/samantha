@@ -19,7 +19,7 @@ def build_config():
     parser = configargparse.get_argument_parser()
     parser.add_argument(
         '-c', '--config_file', dest='config_file', env_var='CONFIG_FILE',
-        default='app_config.yml',
+        default='config.yml',
         help='Configuration file for the application'
     )
     opts = parser.parse_known_args()[0]
