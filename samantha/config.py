@@ -19,7 +19,7 @@ def build_config():
     parser = configargparse.get_argument_parser()
     parser.add_argument(
         '-c', '--config_file', dest='config_file', env_var='CONFIG_FILE',
-        default='config.yml',
+        default='app_config.yml',
         help='Configuration file for the application'
     )
     opts = parser.parse_known_args()[0]
@@ -76,3 +76,13 @@ def get_command_setting(command):
     app_config = build_config()
     config = app_config['commands_settings'][command]
     return config
+
+
+def get_mongo_config():
+    """
+    Returns the mongo config
+    """
+    app_config = build_config()
+    config = app_config['mongo']
+    MongoConfig = namedtuple('MongoConfig', sorted(config))
+    return MongoConfig(**config)

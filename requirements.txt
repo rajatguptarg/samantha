@@ -64,3 +64,4 @@ configargparse
 ruamel.yaml
 coverage
 flake8
+python-json-logger

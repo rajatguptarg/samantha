@@ -10,3 +10,4 @@ from samantha import listeners
 from samantha import responder
 from samantha import sender
 from samantha import brain
+from samantha import repository

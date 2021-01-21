@@ -15,6 +15,7 @@ import certifi
 import asyncio
 import configargparse
 from pyfiglet import Figlet
+from pythonjsonlogger import jsonlogger
 
 from samantha.__project_name__ import __project_name__
 from samantha.__version__ import __version__
@@ -150,7 +151,9 @@ def main():
     f = Figlet(font='doom')
 
     # Logger Configurations
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = jsonlogger.JsonFormatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
     logger = logging.getLogger()
     logger.setLevel(loglevel)
 
