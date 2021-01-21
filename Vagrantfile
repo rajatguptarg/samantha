@@ -77,9 +77,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-get -y upgrade
+    python3.8 -m easy_install pip
     apt-get install -y nginx
-    apt-get install -y python-pip
-    apt-get install -y python3-pip
     pip3 install virtualenv
     mkdir /etc/ansible
     chown -R vagrant:vagrant /etc/ansible/
