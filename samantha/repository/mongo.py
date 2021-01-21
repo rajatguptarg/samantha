@@ -5,7 +5,6 @@
 Author: Rajat Gupta
 Description:
 """
-import os
 import logging
 
 from samantha import config
