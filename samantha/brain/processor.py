@@ -34,5 +34,11 @@ class ResponderMessageProcessor(object):
         if not response:
             text = str(response) + "\nI can not perform this yet. This is coming soon!"
             return self.sender.send_text(text=text, channel=channel)
+        if response.query_result.fulfillment_text.lower() != 'done':
+            if response.query_result.all_required_params_present is not True:
+                return self.sender.send_text(
+                    text=response.query_result.fulfillment_text,
+                    channel=channel
+                )
         command = self.factory.get_command(response, channel, user)
         return command.execute()
