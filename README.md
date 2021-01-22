@@ -102,4 +102,4 @@ Coming Soon!
 
 The onboaring involves adding new servers for Samantha to reach or modify the existing commands for your need. Here are list of commands for onboarding:
 
-* [Log Fetcher](docs/onboarding/log-fetcher.md)
+* [MPStat](docs/onboarding/mpstat.md)
