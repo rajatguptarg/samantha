@@ -25,7 +25,7 @@ class CommandFactory(object):
         map to the bot's command object
         """
         self.command_map = {
-            'log_fetcher': self._prepare_mpstat_command,
+            'mpstat': self._prepare_mpstat_command,
         }
         self.default_command = self._prepare_welcome_command
         super(CommandFactory, self).__init__()
