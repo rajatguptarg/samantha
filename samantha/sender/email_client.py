@@ -62,7 +62,7 @@ class EmailClient(object):
             attachment = MIMEText(file_content)
             attachment.add_header('Content-Disposition', 'attachment', filename=filename)
             msg.attach(attachment)
-        logger.debug("Build email message: %s" % (msg.as_string()))
+        logger.info("Build email message: %s" % (msg.as_string()))
         return msg
 
     def send(self, recipient, message):

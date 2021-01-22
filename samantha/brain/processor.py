@@ -30,7 +30,7 @@ class ResponderMessageProcessor(object):
         """
         Process responder's response
         """
-        logger.debug("Recieved responder response: %s" % (str(response)))
+        logger.info("Recieved responder response: %s" % ((response)))
         if not response:
             text = str(response) + "\nI can not perform this yet. This is coming soon!"
             return self.sender.send_text(text=text, channel=channel)

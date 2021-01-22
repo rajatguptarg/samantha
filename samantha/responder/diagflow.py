@@ -67,7 +67,7 @@ class DiagFlowClient(object):
             query_input = dialogflow.types.QueryInput(text=text_input)
             response = self.session_client.detect_intent(
                 session=self.session, query_input=query_input)
-            logger.debug("Dialogue Flow Response: %s", str(response))
+            logger.info("Dialogue Flow Response: %s", str(response))
             return response
         except Exception as e:
             logger.error("Unable to send to dialogflow with %s" % (e))
