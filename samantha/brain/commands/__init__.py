@@ -6,8 +6,8 @@ Author: Rajat Gupta
 Description:
 """
 
-from samantha.brain.commands.log_fetcher import LogFetcher
+from samantha.brain.commands.mpstat import MPStat
 from samantha.brain.commands.welcome import Welcome
 
 
-__all__ = ['LogFetcher', 'Welcome']
+__all__ = ['MPStat', 'Welcome']

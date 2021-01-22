@@ -6,7 +6,7 @@ Author: Rajat Gupta
 Description:
 """
 
-from samantha.brain.commands import LogFetcher
+from samantha.brain.commands import MPStat
 from samantha.brain.commands import Welcome
 
 
@@ -25,7 +25,7 @@ class CommandFactory(object):
         map to the bot's command object
         """
         self.command_map = {
-            'log_fetcher': self._prepare_log_fetch_command,
+            'log_fetcher': self._prepare_mpstat_command,
         }
         self.default_command = self._prepare_welcome_command
         super(CommandFactory, self).__init__()
@@ -44,8 +44,8 @@ class CommandFactory(object):
         """
         return Welcome(response, channel, user)
 
-    def _prepare_log_fetch_command(self, response, channel, user):
+    def _prepare_mpstat_command(self, response, channel, user):
         """
         Returns the prepared log fetch command
         """
-        return LogFetcher(response, channel, user)
+        return MPStat(response, channel, user)

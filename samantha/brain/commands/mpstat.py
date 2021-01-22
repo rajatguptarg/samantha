@@ -15,23 +15,23 @@ from samantha.brain.commands.command import BotCommand
 from google.protobuf.json_format import MessageToDict
 
 
-__all__ = ['LogFetcher']
+__all__ = ['MPStat']
 
 logger = logging.getLogger(__name__)
 
 
-class LogFetcher(BotCommand):
+class MPStat(BotCommand):
     """
     Log class for log fetching
 
     In case of, adding more servers with log files, please add server
     wrt each environemts in the log_file_map in application config
     """
-    name = 'log_fetcher'
+    name = 'mpstat'
     QUICK_REPLY = 'I am on it. I will send you the file once I am done'
 
     def __init__(self, response, channel, user):
-        super(LogFetcher, self).__init__(channel, user)
+        super(MPStat, self).__init__(channel, user)
         self.data = MessageToDict(response)
         opts = config.get_ansible_config()
         self.command_config = config.get_command_setting(self.name)

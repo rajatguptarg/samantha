@@ -35,7 +35,7 @@ class SlackMessageEventListener(object):
         that contains "start".
         """
         BLACKLIST_CHANNELS = ['C01JG2PQ75J']    # noqa
-        WHITELIST_CHANNELS = ['D01HVBTPU23']
+        WHITELIST_CHANNELS = ['D01HVBTPU23', 'D01KVP8Q7TK']
         BOT_USER_ID = 'U01JAB70GAF'
 
         data = payload["data"]
