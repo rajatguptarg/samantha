@@ -26,6 +26,7 @@ include run_app
 prune config
 exclude CNAME
 prune tests
+prune backup
 prune .circleci
 prune credentials.json
 prune Vagrantfile

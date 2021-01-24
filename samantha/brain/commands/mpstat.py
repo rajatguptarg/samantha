@@ -77,7 +77,7 @@ class MPStat(BotCommand):
         logger.info("Running command: %s with task id %s." % (str(command), task_id))
 
         output, error, rc = self.run_command(
-            command=command, cwd=self.iaac_path, env=env_vars)
+            command=command, cwd=self.iaac_path, env=env_vars, id=task_id)
         json_output = self.parse_stdout_to_json(output)
         str_output = json_output.get('plays')[0]['localhost']['stdout']
 
