@@ -21,18 +21,12 @@ class MongoDBConnection(object):
     """
     MongoDB Connection
     """
-    def __init__(self, host, port, user, password, auth_db):
-        self.host = host
-        self.port = port
-        self.username = user
-        self.password = password
-        self.auth_database = auth_db
+    def __init__(self, conn_string):
+        self.conn_string = conn_string
         self.connection = None
 
     def __enter__(self):
-        self.connection = MongoClient(host=self.host, port=self.port,
-            username=self.username, password=self.password,
-            authSource=self.auth_database)
+        self.connection = MongoClient(self.conn_string)
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -47,11 +41,7 @@ class MongoRepository(object):
     def __init__(self):
         super(MongoRepository, self).__init__()
         opts = config.get_mongo_config()
-        self.client = MongoDBConnection(
-            host=opts.host, port=opts.port,
-            user=opts.username, password=opts.password,
-            auth_db=opts.auth_database
-        )
+        self.client = MongoDBConnection(conn_string=opts.conn_string)
 
     def insert_record(self, record, db='samantha', collection='ansible_run'):
         """
